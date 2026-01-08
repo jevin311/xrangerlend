@@ -75,6 +75,15 @@ export default function Index() {
   }
 
   async function issueToken() {
+    if (!issuerSeed) {
+      alert("Please enter issuer seed");
+      return;
+    }
+    if (!address) {
+      alert("Please enter destination address");
+      return;
+    }
+
     try {
       const payload = {
         seed: issuerSeed,
@@ -84,9 +93,11 @@ export default function Index() {
       };
       const data = await callApi("issue", payload);
       pushLog(
-        `Issued ${currency} -> ${address}: ${JSON.stringify(data?.result || data)}`,
+        `✓ Issued ${currency} -> ${address}: ${JSON.stringify(data?.result || data)}`,
       );
-      alert("Issued tokens — check balances after a few seconds.");
+      alert("Tokens issued successfully! Refreshing balances...");
+      // Auto-refresh balances after issuance
+      setTimeout(() => refreshBalances(), 500);
     } catch (e) {}
   }
 
