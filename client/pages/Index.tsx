@@ -21,6 +21,9 @@ export default function Index() {
   const [issuerAddress, setIssuerAddress] = useState("");
   const [currency, setCurrency] = useState("RLUSD");
 
+  const [loanAmt, setLoanAmt] = useState("");
+  const [finishAfter, setFinishAfter] = useState("");
+
   const [balances, setBalances] = useState<Array<any>>([]);
 
   useEffect(() => {
