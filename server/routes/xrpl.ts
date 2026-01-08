@@ -261,15 +261,63 @@ router.post("/finish-escrow", async (req, res) => {
       offerSequence,
     });
 
-    // TODO: Replace with xrplSdk call to finish escrow
+    // Find the escrow record
+    const escrow = escrowTracker[offerSequence];
+    if (!escrow) {
+      return res.status(404).json({
+        error: `Escrow ${offerSequence} not found`,
+      });
+    }
+
+    // Verify owner matches
+    if (escrow.owner !== owner) {
+      return res.status(403).json({
+        error: "Only escrow owner can finish escrow",
+      });
+    }
+
+    const { destination, amount, currency } = escrow;
+
+    // Initialize destination balance if not exists
+    if (!balanceTracker[destination]) {
+      balanceTracker[destination] = [];
+    }
+
+    // Add funds to destination
+    const destBalance = balanceTracker[destination].find(
+      (b) => b.currency === currency
+    );
+
+    if (destBalance) {
+      destBalance.value = String(
+        parseFloat(destBalance.value) + parseFloat(amount)
+      );
+    } else {
+      balanceTracker[destination].push({
+        currency,
+        value: amount,
+        counterparty: owner,
+      });
+    }
+
+    // Remove escrow from tracker
+    delete escrowTracker[offerSequence];
+
+    console.log(
+      `✓ Escrow ${offerSequence} finished - Released ${amount} ${currency} to ${destination}`
+    );
+
     res.json({
       result: {
         status: "success",
+        escrowSequence: offerSequence,
         owner,
-        offerSequence,
+        destination,
+        amount,
+        currency,
         txHash: `TX${Math.random().toString(36).substring(7).toUpperCase()}`,
         timestamp: new Date().toISOString(),
-        message: "Escrow finished successfully (dummy implementation)",
+        message: "Escrow finished - funds released to destination",
       },
     });
   } catch (error) {
