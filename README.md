@@ -9,6 +9,7 @@ A modern, professional web application for managing decentralized lending operat
 ## 🎯 Overview
 
 xRangerLend is a full-stack lending protocol built on the XRP Ledger. It enables users to:
+
 - Create and manage Decentralized Identifiers (DIDs)
 - Set up trustlines between accounts
 - Issue custom tokens
@@ -22,22 +23,26 @@ The application features a sleek, modern UI with real-time transaction logging, 
 ## ✨ Features
 
 ### Account Management
+
 - **DID Creation** - Generate decentralized identifiers on the XRPL
 - **Account Identity** - Manage account seeds and addresses
 - **Real-time Sync** - Fetch and display current account balances
 
 ### Token Operations
+
 - **Trustline Management** - Establish trust between accounts for token transfers
 - **Token Issuance** - Issue custom tokens to designated accounts
 - **Currency Support** - Support for RLUSD and other XRPL currencies
 
 ### Escrow Contracts
+
 - **Escrow Creation** - Initialize smart escrow contracts with customizable parameters
 - **Lock Duration** - Set time-based conditions for fund release
 - **Escrow Execution** - Complete escrow contracts when conditions are met
 - **Secure Protocol** - Implements XRPL-native security mechanisms
 
 ### Developer Experience
+
 - **Transaction Log** - Real-time logging of all API calls and responses
 - **Error Handling** - Comprehensive error messages and status tracking
 - **Developer Credentials** - Quick reference for API configuration and faucet access
@@ -48,6 +53,7 @@ The application features a sleek, modern UI with real-time transaction logging, 
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 18+ (LTS recommended)
 - pnpm 10.14.0+ (or npm/yarn)
 - Git
@@ -291,6 +297,7 @@ Response:
 ## 🏗️ Architecture
 
 ### Frontend Stack
+
 - **React 18** - UI framework with hooks and functional components
 - **Vite** - Lightning-fast build tool and dev server
 - **Tailwind CSS** - Utility-first CSS framework
@@ -300,6 +307,7 @@ Response:
 - **TypeScript** - Type-safe JavaScript
 
 ### Backend Stack
+
 - **Express.js** - Web framework for Node.js
 - **CORS** - Cross-origin resource sharing middleware
 - **TypeScript** - Type-safe backend code
@@ -307,21 +315,25 @@ Response:
 ### Key Design Patterns
 
 **Component Architecture:**
+
 - Modular, reusable UI components in `client/components/xrpl/`
 - shadcn/ui integration for complex components
 - Custom Button variants (primary, secondary, action) with visual feedback
 
 **State Management:**
+
 - React hooks (useState, useEffect) for component state
 - Props-based data flow for simplicity
 - Axios for async API communication
 
 **Error Handling:**
+
 - Try-catch blocks around API calls
 - User-friendly error messages
 - Real-time error logging in transaction log
 
 **Styling:**
+
 - Tailwind CSS for responsive, modern design
 - HSL-based CSS variables for theming
 - Dark mode theme optimized for XRPL aesthetic
@@ -391,6 +403,7 @@ Response:
 ### Accessing Testnet Funds
 
 Get free XRP for testing:
+
 1. Visit [xrpl.org/faucet](https://xrpl.org/faucet)
 2. Generate or use an existing testnet account
 3. Request funds (typically 100 XRP per request)
@@ -421,10 +434,10 @@ router.post("/did", async (req, res) => {
   try {
     const { seed } = req.body;
     const wallet = Wallet.fromSeed(seed);
-    
+
     // Replace with actual xrplSdk call
     // const result = await createDID(wallet);
-    
+
     res.json({ result: { did: wallet.address } });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -450,6 +463,7 @@ pnpm test
 ## 📦 Dependencies
 
 ### Key Production Dependencies
+
 - `react@^18.3.1` - UI framework
 - `express@^5.1.0` - Backend framework
 - `axios@^1.13.2` - HTTP client
@@ -458,6 +472,7 @@ pnpm test
 - `@radix-ui/*` - Accessible components
 
 ### Development Dependencies
+
 - `typescript@^5.9.2` - Type checking
 - `vite@^7.1.2` - Build tool
 - `tailwindcss` - CSS processing
@@ -539,6 +554,7 @@ Contributions are welcome! To contribute:
 5. Open a Pull Request
 
 Please ensure:
+
 - Code follows existing style conventions
 - TypeScript types are properly defined
 - Components follow established patterns
@@ -549,22 +565,29 @@ Please ensure:
 ## 🐛 Troubleshooting
 
 ### "Unable to input numbers in escrow fields"
+
 **Solution:** The input fields should now properly accept and store values. Make sure to use the latest version.
 
 ### "Error: timeout of 45000ms exceeded"
-**Solution:** 
+
+**Solution:**
+
 - Check if backend server is running
 - Verify API_BASE configuration
 - Check network connectivity
 - Try increasing timeout in `client/pages/Index.tsx` line 37
 
 ### "Cannot read property 'value' of null"
+
 **Solution:**
+
 - Ensure input fields have proper state management
 - Check that IDs match between InputField and usage
 
 ### "Transaction Log not showing updates"
+
 **Solution:**
+
 - Check browser console for errors
 - Verify API responses are being received
 - Clear browser cache if needed
