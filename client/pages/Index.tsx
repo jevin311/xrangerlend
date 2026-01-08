@@ -237,15 +237,15 @@ export default function Index() {
                     <InputField
                       id="loanAmt"
                       label="Loan Amount"
-                      value=""
-                      onChange={() => {}}
+                      value={loanAmt}
+                      onChange={(e) => setLoanAmt(e.target.value)}
                       placeholder="100"
                     />
                     <InputField
                       id="finishAfter"
                       label="Lock Duration"
-                      value=""
-                      onChange={() => {}}
+                      value={finishAfter}
+                      onChange={(e) => setFinishAfter(e.target.value)}
                       placeholder="3600"
                     />
                   </div>
