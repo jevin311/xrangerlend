@@ -6,8 +6,8 @@ import { Button } from "@/components/xrpl/Button";
 import { InputField } from "@/components/xrpl/InputField";
 import { StatusBadge } from "@/components/xrpl/StatusBadge";
 
-// Top-level configurable API base
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000";
+// Top-level configurable API base - use relative paths for seamless integration
+const API_BASE = import.meta.env.VITE_API_BASE || "";
 
 // --- MAIN APP ---
 
