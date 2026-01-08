@@ -85,6 +85,13 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundColor: {
+        dark: "rgb(15, 23, 37)",
+        "dark-secondary": "rgb(20, 28, 41)",
+      },
+      textColor: {
+        accent: "rgb(6, 182, 212)",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
