@@ -330,6 +330,14 @@ export default function Index() {
 
                   <Button
                     onClick={async () => {
+                      if (!issuerSeed) {
+                        alert("Please enter issuer seed");
+                        return;
+                      }
+                      if (!address) {
+                        alert("Please enter destination address");
+                        return;
+                      }
                       if (!loanAmt) {
                         alert("Please enter loan amount");
                         return;
@@ -339,16 +347,32 @@ export default function Index() {
                         return;
                       }
                       try {
-                        await callApi("create-escrow", {
+                        const response = await callApi("create-escrow", {
                           seed: issuerSeed,
                           destination: address,
                           amount: loanAmt,
                           currency,
                           finishAfter: parseInt(finishAfter),
                         });
-                        alert("Escrow initialized on ledger.");
+                        const escrowSeq =
+                          response?.result?.escrowSequence ||
+                          response?.escrowSequence;
+                        pushLog(
+                          `✓ Escrow created with sequence ${escrowSeq} - Locked ${loanAmt} ${currency}`,
+                        );
+                        alert(
+                          `Escrow initialized! Sequence: ${escrowSeq}\n\nFunds locked: ${loanAmt} ${currency}\n\nUse this sequence to finish the escrow.`,
+                        );
                         setLoanAmt("");
                         setFinishAfter("");
+                        // Auto-refresh issuer balances after creating escrow
+                        setTimeout(() => {
+                          if (issuerSeed) {
+                            const issuerAddr = issuerSeed.substring(0, 20);
+                            setAddress(issuerAddr);
+                            refreshBalances();
+                          }
+                        }, 500);
                       } catch (e) {}
                     }}
                     variant="action"
