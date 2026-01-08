@@ -5,6 +5,18 @@ const router = Router();
 // In-memory balance tracking (for demo purposes)
 const balanceTracker: Record<string, Array<{ currency: string; value: string; counterparty: string }>> = {};
 
+// In-memory escrow tracking
+interface EscrowRecord {
+  sequence: number;
+  owner: string;
+  destination: string;
+  amount: string;
+  currency: string;
+  finishAfter?: number;
+  createdAt: string;
+}
+const escrowTracker: Record<number, EscrowRecord> = {};
+
 // --- XRPL Routes ---
 
 /**
