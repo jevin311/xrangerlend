@@ -2,6 +2,9 @@ import { Router } from "express";
 
 const router = Router();
 
+// In-memory balance tracking (for demo purposes)
+const balanceTracker: Record<string, Array<{ currency: string; value: string; counterparty: string }>> = {};
+
 // --- XRPL Routes ---
 
 /**
