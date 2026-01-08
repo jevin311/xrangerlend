@@ -91,12 +91,21 @@ export default function Index() {
   }
 
   async function refreshBalances() {
+    if (!address) {
+      alert("Please enter an account address first");
+      return;
+    }
+
     try {
+      setStatus("Processing...");
       const res = await axios.get(`${API_BASE}/balances/${address}`);
       setBalances(res.data || []);
-      pushLog(`Balances refreshed for ${address}`);
+      setStatus("Done");
+      pushLog(`✓ Balances refreshed for ${address}`);
     } catch (err: any) {
-      pushLog(`Balances error: ${err.message}`);
+      const errorMsg = err?.message || "Failed to fetch balances";
+      setStatus(`Error: ${errorMsg}`);
+      pushLog(`✗ Balances error: ${errorMsg}`);
     }
   }
 
