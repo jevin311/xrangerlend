@@ -231,21 +231,20 @@ router.get("/balances/:address", async (req, res) => {
 
     console.log("💳 Balances requested for:", address);
 
-    // TODO: Replace with xrplSdk call to fetch actual account balances
-    const dummyBalances = [
-      {
-        currency: "RLUSD",
-        value: "1000",
-        counterparty: "rIssuer123456789012345678901234567",
-      },
-      {
-        currency: "XRP",
-        value: "50",
-        counterparty: "Native",
-      },
-    ];
+    // Return tracked balances if any exist, otherwise return empty
+    const balances = balanceTracker[address] || [];
 
-    res.json(dummyBalances);
+    // For demonstration, add some initial XRP balance if no balances tracked
+    if (balances.length === 0) {
+      balances.push({
+        currency: "XRP",
+        value: "100",
+        counterparty: "Native",
+      });
+    }
+
+    // TODO: Replace with xrplSdk call to fetch actual account balances
+    res.json(balances);
   } catch (error) {
     console.error("❌ Balances Error:", error);
     res.status(500).json({ error: "Failed to fetch balances" });
