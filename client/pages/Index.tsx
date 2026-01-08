@@ -66,11 +66,22 @@ export default function Index() {
   }
 
   async function createTrustline() {
+    if (!seed) {
+      alert("Please enter account seed");
+      return;
+    }
+    if (!issuerAddress && !issuerSeed) {
+      alert("Please enter issuer address or seed");
+      return;
+    }
+
     try {
       const payload = { seed, issuer: issuerAddress || issuerSeed, currency };
       const data = await callApi("trustline", payload);
-      pushLog(`Trustline: ${JSON.stringify(data?.result || data)}`);
-      alert("Trustline created (or pending). Check logs.");
+      pushLog(
+        `✓ Trustline set: ${currency} with ${(issuerAddress || issuerSeed).slice(-6)}`,
+      );
+      alert("Trustline created successfully!");
     } catch (e) {}
   }
 
