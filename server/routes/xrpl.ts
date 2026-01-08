@@ -17,6 +17,16 @@ interface EscrowRecord {
 }
 const escrowTracker: Record<number, EscrowRecord> = {};
 
+// Helper function to get account from seed (simplified)
+function getAccountFromSeed(seed: string): string {
+  // In real implementation, derive actual address from seed
+  // For demo, use a deterministic hash of seed
+  const hash = seed.split("").reduce((acc, char) => {
+    return acc + char.charCodeAt(0);
+  }, 0);
+  return `r${hash}xrpl${seed.slice(-4)}`;
+}
+
 // --- XRPL Routes ---
 
 /**
