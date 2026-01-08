@@ -3,7 +3,10 @@ import { Router } from "express";
 const router = Router();
 
 // In-memory balance tracking (for demo purposes)
-const balanceTracker: Record<string, Array<{ currency: string; value: string; counterparty: string }>> = {};
+const balanceTracker: Record<
+  string,
+  Array<{ currency: string; value: string; counterparty: string }>
+> = {};
 
 // In-memory escrow tracking
 interface EscrowRecord {
@@ -123,13 +126,13 @@ router.post("/issue", async (req, res) => {
 
     // Check if currency already exists for this destination
     const existingBalance = balanceTracker[destination].find(
-      (b) => b.currency === currency
+      (b) => b.currency === currency,
     );
 
     if (existingBalance) {
       // Update existing balance
       existingBalance.value = String(
-        parseFloat(existingBalance.value) + parseFloat(value)
+        parseFloat(existingBalance.value) + parseFloat(value),
       );
     } else {
       // Add new currency balance
@@ -190,11 +193,9 @@ router.post("/create-escrow", async (req, res) => {
     }
 
     const issuerBalance = balanceTracker[issuerAddress].find(
-      (b) => b.currency === currency
+      (b) => b.currency === currency,
     );
-    const currentBalance = issuerBalance
-      ? parseFloat(issuerBalance.value)
-      : 0;
+    const currentBalance = issuerBalance ? parseFloat(issuerBalance.value) : 0;
 
     if (currentBalance < parsedAmount) {
       return res.status(400).json({
@@ -287,12 +288,12 @@ router.post("/finish-escrow", async (req, res) => {
 
     // Add funds to destination
     const destBalance = balanceTracker[destination].find(
-      (b) => b.currency === currency
+      (b) => b.currency === currency,
     );
 
     if (destBalance) {
       destBalance.value = String(
-        parseFloat(destBalance.value) + parseFloat(amount)
+        parseFloat(destBalance.value) + parseFloat(amount),
       );
     } else {
       balanceTracker[destination].push({
@@ -306,7 +307,7 @@ router.post("/finish-escrow", async (req, res) => {
     delete escrowTracker[offerSequence];
 
     console.log(
-      `✓ Escrow ${offerSequence} finished - Released ${amount} ${currency} to ${destination}`
+      `✓ Escrow ${offerSequence} finished - Released ${amount} ${currency} to ${destination}`,
     );
 
     res.json({
