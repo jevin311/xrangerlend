@@ -7,7 +7,12 @@ interface CardProps {
   highlight?: boolean;
 }
 
-export function Card({ title, children, className = "", highlight = false }: CardProps) {
+export function Card({
+  title,
+  children,
+  className = "",
+  highlight = false,
+}: CardProps) {
   return (
     <div
       className={`relative rounded-xl border backdrop-blur-sm transition-all duration-300 ${

@@ -79,11 +79,9 @@ router.post("/issue", async (req, res) => {
     const { seed, destination, currency, value } = req.body;
 
     if (!seed || !destination || !currency || !value) {
-      return res
-        .status(400)
-        .json({
-          error: "Seed, destination, currency, and value are required",
-        });
+      return res.status(400).json({
+        error: "Seed, destination, currency, and value are required",
+      });
     }
 
     console.log("💰 Issue token request:", {
@@ -120,11 +118,9 @@ router.post("/create-escrow", async (req, res) => {
     const { seed, destination, amount, currency, finishAfter } = req.body;
 
     if (!seed || !destination || !amount || !currency) {
-      return res
-        .status(400)
-        .json({
-          error: "Seed, destination, amount, and currency are required",
-        });
+      return res.status(400).json({
+        error: "Seed, destination, amount, and currency are required",
+      });
     }
 
     console.log("📦 Escrow creation:", {
@@ -166,11 +162,9 @@ router.post("/finish-escrow", async (req, res) => {
     const { seed, owner, offerSequence } = req.body;
 
     if (!seed || !owner || !offerSequence) {
-      return res
-        .status(400)
-        .json({
-          error: "Seed, owner, and offerSequence are required",
-        });
+      return res.status(400).json({
+        error: "Seed, owner, and offerSequence are required",
+      });
     }
 
     console.log("✅ Finish escrow request:", {

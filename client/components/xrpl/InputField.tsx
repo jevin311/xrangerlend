@@ -15,7 +15,10 @@ export function InputField({
 }: InputFieldProps) {
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor={id} className="text-xs font-medium text-slate-400 uppercase tracking-wide">
+      <label
+        htmlFor={id}
+        className="text-xs font-medium text-slate-400 uppercase tracking-wide"
+      >
         {label}
       </label>
       <input

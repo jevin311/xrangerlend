@@ -31,9 +31,7 @@ export function StatusBadge({ status }: StatusBadgeProps) {
       {isProcessing && (
         <div className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" />
       )}
-      {isError && (
-        <div className="w-1.5 h-1.5 rounded-full bg-red-400" />
-      )}
+      {isError && <div className="w-1.5 h-1.5 rounded-full bg-red-400" />}
       {!isError && !isProcessing && (
         <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
       )}

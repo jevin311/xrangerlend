@@ -31,19 +31,25 @@ export default function Index() {
   }, [seed]);
 
   function pushLog(entry: string) {
-    setLog((l) => [{ ts: new Date().toISOString(), entry }, ...l].slice(0, 100));
+    setLog((l) =>
+      [{ ts: new Date().toISOString(), entry }, ...l].slice(0, 100),
+    );
   }
 
   async function callApi(path: string, body = {}) {
     setStatus("Processing...");
     try {
-      const res = await axios.post(`${API_BASE}/${path}`, body, { timeout: 45000 });
+      const res = await axios.post(`${API_BASE}/${path}`, body, {
+        timeout: 45000,
+      });
       setStatus("Done");
       pushLog(`${path} -> OK`);
       return res.data;
     } catch (err: any) {
       const msg = err?.response?.data || err.message || String(err);
-      setStatus("Error: " + (typeof msg === "string" ? msg : JSON.stringify(msg)));
+      setStatus(
+        "Error: " + (typeof msg === "string" ? msg : JSON.stringify(msg)),
+      );
       pushLog(`${path} -> ERROR: ${JSON.stringify(msg)}`);
       throw err;
     }
@@ -77,7 +83,9 @@ export default function Index() {
         value: "100",
       };
       const data = await callApi("issue", payload);
-      pushLog(`Issued ${currency} -> ${address}: ${JSON.stringify(data?.result || data)}`);
+      pushLog(
+        `Issued ${currency} -> ${address}: ${JSON.stringify(data?.result || data)}`,
+      );
       alert("Issued tokens — check balances after a few seconds.");
     } catch (e) {}
   }
@@ -145,10 +153,18 @@ export default function Index() {
                   />
 
                   <div className="flex gap-2 pt-2">
-                    <Button onClick={createDID} variant="primary" className="flex-1">
+                    <Button
+                      onClick={createDID}
+                      variant="primary"
+                      className="flex-1"
+                    >
                       Init DID
                     </Button>
-                    <Button onClick={refreshBalances} variant="secondary" className="flex-1">
+                    <Button
+                      onClick={refreshBalances}
+                      variant="secondary"
+                      className="flex-1"
+                    >
                       Sync Data
                     </Button>
                   </div>
@@ -188,10 +204,18 @@ export default function Index() {
                   />
 
                   <div className="flex gap-2 pt-2">
-                    <Button onClick={createTrustline} variant="action" className="flex-1">
+                    <Button
+                      onClick={createTrustline}
+                      variant="action"
+                      className="flex-1"
+                    >
                       Trust Set
                     </Button>
-                    <Button onClick={issueToken} variant="action" className="flex-1">
+                    <Button
+                      onClick={issueToken}
+                      variant="action"
+                      className="flex-1"
+                    >
                       Issue Token
                     </Button>
                   </div>
@@ -203,8 +227,12 @@ export default function Index() {
                 <div className="space-y-3 max-h-64 overflow-y-auto">
                   {balances.length === 0 ? (
                     <div className="text-center py-8">
-                      <p className="text-sm font-semibold text-slate-400 mb-2">NO ASSETS DETECTED</p>
-                      <p className="text-xs text-slate-500">Tap 'Sync Data' to refresh</p>
+                      <p className="text-sm font-semibold text-slate-400 mb-2">
+                        NO ASSETS DETECTED
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        Tap 'Sync Data' to refresh
+                      </p>
                     </div>
                   ) : (
                     balances.map((b, i) => (
@@ -216,10 +244,14 @@ export default function Index() {
                           <div className="text-sm font-semibold text-slate-200">
                             {b.currency || "XRP"}
                           </div>
-                          <div className="text-xs text-slate-500">{b.counterparty || "Native"}</div>
+                          <div className="text-xs text-slate-500">
+                            {b.counterparty || "Native"}
+                          </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-sm font-mono text-cyan-400">{b.value}</div>
+                          <div className="text-sm font-mono text-cyan-400">
+                            {b.value}
+                          </div>
                         </div>
                       </div>
                     ))
@@ -251,10 +283,12 @@ export default function Index() {
                   </div>
 
                   <div className="p-4 rounded-lg bg-slate-900/30 border border-slate-700/30 text-xs text-slate-300 space-y-2">
-                    <p className="font-semibold text-slate-200">PROTOCOL FLOW:</p>
+                    <p className="font-semibold text-slate-200">
+                      PROTOCOL FLOW:
+                    </p>
                     <p>
-                      Issuer sends tokens → Smart Escrow locks funds → Finish condition met (Time) →
-                      Funds released to Borrower.
+                      Issuer sends tokens → Smart Escrow locks funds → Finish
+                      condition met (Time) → Funds released to Borrower.
                     </p>
                   </div>
 
@@ -289,7 +323,9 @@ export default function Index() {
 
                   <Button
                     onClick={async () => {
-                      const seq = prompt("Enter Escrow Sequence # (from logs):");
+                      const seq = prompt(
+                        "Enter Escrow Sequence # (from logs):",
+                      );
                       if (!seq) return;
                       try {
                         await callApi("finish-escrow", {
@@ -323,9 +359,13 @@ export default function Index() {
                         className="border-b border-slate-700/20 py-2 hover:bg-slate-900/30 px-2 transition-colors"
                       >
                         <div className="text-slate-500 mb-1">
-                          <span className="text-cyan-400">{new Date(l.ts).toLocaleTimeString()}</span>
+                          <span className="text-cyan-400">
+                            {new Date(l.ts).toLocaleTimeString()}
+                          </span>
                           <span className="text-slate-600"> | </span>
-                          <span className="text-emerald-400">BLOCK_SEQ_{1000 + idx}</span>
+                          <span className="text-emerald-400">
+                            BLOCK_SEQ_{1000 + idx}
+                          </span>
                         </div>
                         <div className="text-slate-300">
                           <span className="text-emerald-400">➜</span> {l.entry}
