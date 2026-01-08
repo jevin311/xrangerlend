@@ -260,19 +260,25 @@ export default function Index() {
 
                   <Button
                     onClick={async () => {
-                      const amt = (document.getElementById("loanAmt") as HTMLInputElement)?.value;
-                      const finish = parseInt(
-                        (document.getElementById("finishAfter") as HTMLInputElement)?.value || "0"
-                      );
+                      if (!loanAmt) {
+                        alert("Please enter loan amount");
+                        return;
+                      }
+                      if (!finishAfter) {
+                        alert("Please enter lock duration");
+                        return;
+                      }
                       try {
                         await callApi("create-escrow", {
                           seed: issuerSeed,
                           destination: address,
-                          amount: amt,
+                          amount: loanAmt,
                           currency,
-                          finishAfter: finish,
+                          finishAfter: parseInt(finishAfter),
                         });
                         alert("Escrow initialized on ledger.");
+                        setLoanAmt("");
+                        setFinishAfter("");
                       } catch (e) {}
                     }}
                     variant="action"
