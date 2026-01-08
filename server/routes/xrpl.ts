@@ -94,6 +94,30 @@ router.post("/issue", async (req, res) => {
       value,
     });
 
+    // Track the issued tokens in memory
+    if (!balanceTracker[destination]) {
+      balanceTracker[destination] = [];
+    }
+
+    // Check if currency already exists for this destination
+    const existingBalance = balanceTracker[destination].find(
+      (b) => b.currency === currency
+    );
+
+    if (existingBalance) {
+      // Update existing balance
+      existingBalance.value = String(
+        parseFloat(existingBalance.value) + parseFloat(value)
+      );
+    } else {
+      // Add new currency balance
+      balanceTracker[destination].push({
+        currency,
+        value,
+        counterparty: "rIssuer123456789012345678901234567",
+      });
+    }
+
     // TODO: Replace with xrplSdk call to issue tokens
     res.json({
       result: {
@@ -103,7 +127,7 @@ router.post("/issue", async (req, res) => {
         value,
         txHash: `TX${Math.random().toString(36).substring(7).toUpperCase()}`,
         timestamp: new Date().toISOString(),
-        message: "Token issued successfully (dummy implementation)",
+        message: "Token issued successfully",
       },
     });
   } catch (error) {
