@@ -383,17 +383,29 @@ export default function Index() {
 
                   <Button
                     onClick={async () => {
+                      if (!issuerSeed) {
+                        alert("Please enter issuer seed");
+                        return;
+                      }
                       const seq = prompt(
                         "Enter Escrow Sequence # (from logs):",
                       );
                       if (!seq) return;
                       try {
-                        await callApi("finish-escrow", {
-                          seed,
+                        const response = await callApi("finish-escrow", {
+                          seed: issuerSeed,
                           owner: issuerAddress || issuerSeed,
                           offerSequence: parseInt(seq),
                         });
-                        alert("Escrow Execution Request Sent.");
+                        const escrowSeq = parseInt(seq);
+                        pushLog(
+                          `✓ Escrow ${escrowSeq} finished - Funds released`,
+                        );
+                        alert(
+                          `Escrow execution complete!\n\nSequence: ${escrowSeq}\nAmount: ${response?.result?.amount} ${response?.result?.currency}`,
+                        );
+                        // Auto-refresh balances after finishing escrow
+                        setTimeout(() => refreshBalances(), 500);
                       } catch (e) {}
                     }}
                     variant="secondary"
