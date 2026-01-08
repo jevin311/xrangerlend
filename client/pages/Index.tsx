@@ -57,11 +57,16 @@ export default function Index() {
 
   // Actions
   async function createDID() {
+    if (!seed) {
+      alert("Please enter account seed");
+      return;
+    }
+
     try {
       const payload = { seed };
       const data = await callApi("did", payload);
-      pushLog(`DID created: ${JSON.stringify(data?.result || data)}`);
-      alert("DID created — check transaction in response and server logs.");
+      pushLog(`✓ DID created: ${data?.result?.did || data?.did || "success"}`);
+      alert(`DID created successfully: ${data?.result?.did || "Check logs"}`);
     } catch (e) {}
   }
 
