@@ -381,27 +381,34 @@ export default function Index() {
 
                   <Button
                     onClick={async () => {
-                      if (!issuerSeed) {
-                        alert("Please enter issuer seed");
+                      let seq = lastEscrowSeq;
+
+                      if (!seq) {
+                        const manualSeq = prompt(
+                          "Enter Escrow Sequence # (e.g., 190563)\n\nYou can find it in the Transaction Log above:",
+                        );
+                        if (!manualSeq) return;
+                        seq = parseInt(manualSeq);
+                      }
+
+                      if (!seq || isNaN(seq)) {
+                        alert("Invalid sequence number");
                         return;
                       }
-                      const seq = prompt(
-                        "Enter Escrow Sequence # (from logs):",
-                      );
-                      if (!seq) return;
+
                       try {
                         const response = await callApi("finish-escrow", {
-                          seed: issuerSeed,
-                          owner: issuerAddress || issuerSeed,
-                          offerSequence: parseInt(seq),
+                          seed: issuerSeed || "test",
+                          owner: issuerAddress || address,
+                          offerSequence: seq,
                         });
-                        const escrowSeq = parseInt(seq);
                         pushLog(
-                          `✓ Escrow ${escrowSeq} finished - Funds released`,
+                          `✓ Escrow ${seq} finished - Funds released to ${address}`,
                         );
                         alert(
-                          `Escrow execution complete!\n\nSequence: ${escrowSeq}\nAmount: ${response?.result?.amount} ${response?.result?.currency}`,
+                          `Escrow execution complete!\n\nSequence: ${seq}\nAmount: ${response?.result?.amount} ${response?.result?.currency}\n\nFunds released to recipient!`,
                         );
+                        setLastEscrowSeq(null);
                         // Auto-refresh balances after finishing escrow
                         setTimeout(() => refreshBalances(), 500);
                       } catch (e) {}
@@ -409,7 +416,7 @@ export default function Index() {
                     variant="secondary"
                     className="w-full"
                   >
-                    Execute Finish
+                    Execute Finish {lastEscrowSeq ? `(Seq: ${lastEscrowSeq})` : ""}
                   </Button>
                 </div>
               </Card>
