@@ -23,6 +23,7 @@ export default function Index() {
 
   const [loanAmt, setLoanAmt] = useState("");
   const [finishAfter, setFinishAfter] = useState("");
+  const [lastEscrowSeq, setLastEscrowSeq] = useState<number | null>(null);
 
   const [balances, setBalances] = useState<Array<any>>([]);
 
