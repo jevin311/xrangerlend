@@ -248,19 +248,15 @@ router.post("/create-escrow", async (req, res) => {
  */
 router.post("/finish-escrow", async (req, res) => {
   try {
-    const { seed, offerSequence } = req.body;
+    const { seed, owner, offerSequence } = req.body;
 
-    if (!seed || !offerSequence) {
+    if (!offerSequence) {
       return res.status(400).json({
-        error: "Seed and offerSequence are required",
+        error: "offerSequence is required",
       });
     }
 
-    const owner = getAccountFromSeed(seed);
-
     console.log("✅ Finish escrow request:", {
-      seed: seed.slice(-4),
-      owner,
       offerSequence,
     });
 
@@ -269,13 +265,6 @@ router.post("/finish-escrow", async (req, res) => {
     if (!escrow) {
       return res.status(404).json({
         error: `Escrow ${offerSequence} not found`,
-      });
-    }
-
-    // Verify owner matches
-    if (escrow.owner !== owner) {
-      return res.status(403).json({
-        error: `Only escrow owner ${escrow.owner} can finish escrow`,
       });
     }
 
