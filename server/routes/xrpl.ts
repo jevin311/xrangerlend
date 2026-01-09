@@ -288,7 +288,7 @@ router.post("/finish-escrow", async (req, res) => {
       balanceTracker[destination].push({
         currency,
         value: amount,
-        counterparty: owner,
+        counterparty: escrow.owner,
       });
     }
 
@@ -303,7 +303,7 @@ router.post("/finish-escrow", async (req, res) => {
       result: {
         status: "success",
         escrowSequence: offerSequence,
-        owner,
+        owner: escrow.owner,
         destination,
         amount,
         currency,
