@@ -167,16 +167,23 @@ router.post("/issue", async (req, res) => {
  */
 router.post("/create-escrow", async (req, res) => {
   try {
-    const { seed, destination, amount, currency, finishAfter } = req.body;
+    const { seed, issuer, destination, amount, currency, finishAfter } = req.body;
 
-    if (!seed || !destination || !amount || !currency) {
+    if (!destination || !amount || !currency) {
       return res.status(400).json({
-        error: "Seed, destination, amount, and currency are required",
+        error: "Destination, amount, and currency are required",
       });
     }
 
-    const issuerAddress = getAccountFromSeed(seed);
+    // Use provided issuer address, or try seed as fallback
+    const issuerAddress = issuer || getAccountFromSeed(seed || "");
     const parsedAmount = parseFloat(amount);
+
+    if (!issuerAddress) {
+      return res.status(400).json({
+        error: "Issuer address or seed is required",
+      });
+    }
 
     console.log("📦 Escrow creation:", {
       seed: seed.slice(-4),
