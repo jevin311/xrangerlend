@@ -330,12 +330,8 @@ export default function Index() {
 
                   <Button
                     onClick={async () => {
-                      if (!issuerSeed) {
-                        alert("Please enter issuer seed");
-                        return;
-                      }
                       if (!address) {
-                        alert("Please enter destination address");
+                        alert("Please enter account address (where tokens are)");
                         return;
                       }
                       if (!loanAmt) {
@@ -347,9 +343,9 @@ export default function Index() {
                         return;
                       }
                       try {
+                        // Use the account with tokens (address) as the source for escrow
                         const response = await callApi("create-escrow", {
-                          seed: issuerSeed,
-                          issuer: issuerAddress || address,
+                          issuer: address,
                           destination: address,
                           amount: loanAmt,
                           currency,
