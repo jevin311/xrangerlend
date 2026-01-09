@@ -355,11 +355,12 @@ export default function Index() {
                         const escrowSeq =
                           response?.result?.escrowSequence ||
                           response?.escrowSequence;
+                        setLastEscrowSeq(escrowSeq);
                         pushLog(
                           `✓ Escrow created with sequence ${escrowSeq} - Locked ${loanAmt} ${currency}`,
                         );
                         alert(
-                          `Escrow initialized! Sequence: ${escrowSeq}\n\nFunds locked: ${loanAmt} ${currency}\n\nUse this sequence to finish the escrow.`,
+                          `Escrow initialized! Sequence: ${escrowSeq}\n\nFunds locked: ${loanAmt} ${currency}\n\nClick "Execute Finish" below and use this sequence number.`,
                         );
                         setLoanAmt("");
                         setFinishAfter("");
