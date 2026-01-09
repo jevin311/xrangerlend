@@ -332,7 +332,9 @@ export default function Index() {
                   <Button
                     onClick={async () => {
                       if (!address) {
-                        alert("Please enter account address (where tokens are)");
+                        alert(
+                          "Please enter account address (where tokens are)",
+                        );
                         return;
                       }
                       if (!loanAmt) {
@@ -416,7 +418,8 @@ export default function Index() {
                     variant="secondary"
                     className="w-full"
                   >
-                    Execute Finish {lastEscrowSeq ? `(Seq: ${lastEscrowSeq})` : ""}
+                    Execute Finish{" "}
+                    {lastEscrowSeq ? `(Seq: ${lastEscrowSeq})` : ""}
                   </Button>
                 </div>
               </Card>

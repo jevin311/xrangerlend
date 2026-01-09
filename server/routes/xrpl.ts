@@ -167,7 +167,8 @@ router.post("/issue", async (req, res) => {
  */
 router.post("/create-escrow", async (req, res) => {
   try {
-    const { seed, issuer, destination, amount, currency, finishAfter } = req.body;
+    const { seed, issuer, destination, amount, currency, finishAfter } =
+      req.body;
 
     if (!destination || !amount || !currency) {
       return res.status(400).json({
