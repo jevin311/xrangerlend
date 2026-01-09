@@ -343,10 +343,10 @@ export default function Index() {
                         return;
                       }
                       try {
-                        // Use the account with tokens (address) as the source for escrow
+                        // Create escrow: lock tokens from the account address, send to same or different address
                         const response = await callApi("create-escrow", {
                           issuer: address,
-                          destination: address,
+                          destination: issuerAddress || address,
                           amount: loanAmt,
                           currency,
                           finishAfter: parseInt(finishAfter),
