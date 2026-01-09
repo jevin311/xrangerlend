@@ -186,7 +186,6 @@ router.post("/create-escrow", async (req, res) => {
     }
 
     console.log("📦 Escrow creation:", {
-      seed: seed.slice(-4),
       issuerAddress,
       destination,
       amount,
