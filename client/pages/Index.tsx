@@ -349,6 +349,7 @@ export default function Index() {
                       try {
                         const response = await callApi("create-escrow", {
                           seed: issuerSeed,
+                          issuer: issuerAddress || address,
                           destination: address,
                           amount: loanAmt,
                           currency,
@@ -365,13 +366,12 @@ export default function Index() {
                         );
                         setLoanAmt("");
                         setFinishAfter("");
-                        // Auto-refresh issuer balances after creating escrow
+                        // Auto-refresh balances after creating escrow
                         setTimeout(() => {
-                          if (issuerSeed) {
-                            const issuerAddr = issuerSeed.substring(0, 20);
-                            setAddress(issuerAddr);
-                            refreshBalances();
+                          if (issuerAddress) {
+                            setAddress(issuerAddress);
                           }
+                          refreshBalances();
                         }, 500);
                       } catch (e) {}
                     }}
